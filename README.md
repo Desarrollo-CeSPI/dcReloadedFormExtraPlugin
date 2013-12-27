@@ -5,26 +5,26 @@ etc.
 
 ## Installation
 
-  * svn installation:
+* Via composer:
 
-        [bash]
-        $ svn co http://svn.symfony-project.com/plugins/dcReloadedFormExtraPlugin/trunk plugins/dcReloadedFormExtraPlugin
+```json
+{
+  "require": {
+    "desarrollo-cespi/dc-reloaded-form-extra-plugin": "dev-master"
+  }
+}
+```
 
-  * install as a plugin:
-  
-        [bash]
-        $ ./symfony pl:i dcReloadedFormExtraPlugin
+* Or using git, from source.
 
-  * Enable the plugin in your proyect configuration (only if installed through svn)
+* Enable the plugin in your proyect configuration
 
-        [php]
-        // in config/ProjectConfiguration.class.php add:
-        $this->enablePlugin("dcReloadedFormExtraPlugin");
+```php
+// in config/ProjectConfiguration.class.php add:
+$this->enablePlugin("dcReloadedFormExtraPlugin");
+```
 
-  * clear the cache
-
-        [bash]
-        $ ./symfony cc
+* Clear the cache
 
 ## Widgets
 
@@ -60,8 +60,9 @@ The `mtWidgetFormPlain` provides a way for showing plain values in the forms.
 
 ##### Usage
 
-    [php]
-    $this->widgetSchema["some_field"] = new mtWidgetFormPlain(array("add_hidden_input" => true));
+```php
+$this->widgetSchema["some_field"] = new mtWidgetFormPlain(array("add_hidden_input" => true));
+```
     
 For more options, take a look at the widget's doc comments.
 
@@ -76,22 +77,26 @@ In this case, you can have the following scenarios:
 
 For the first case, just use the widget as it is. But for the second case, you
 will need to do some trick inside the form implementation:
-  if (!$this->getObject()->isNew())
-  {
-      $a11Object=$this->getObject()->getA11();
-      $this->setDefault('a1_id',$a11Object->getA1Id());
-      $this->setDefault('a_id',$b111->getB11()->getA1()->getAId());
-  }
+
+```php
+if (!$this->getObject()->isNew())
+{
+  $a11Object=$this->getObject()->getA11();
+  $this->setDefault('a1_id',$a11Object->getA1Id());
+  $this->setDefault('a_id',$b111->getB11()->getA1()->getAId());
+}
+```
 
 ##### Usage
 
-    [php]
-    $w = new sfWidgetFormInput();
-    $this->widgetSchema["some_field"] = new dcWidgetFormAjaxDependence(array(
-      "dependant_widget" => $w,
-      "observe_widget_id" => "some_form_some_field",
-      "get_observed_value_callback" => array(get_class($this), "getValueForUpdate")
-    ));
+```php
+$w = new sfWidgetFormInput();
+$this->widgetSchema["some_field"] = new dcWidgetFormAjaxDependence(array(
+  "dependant_widget" => $w,
+  "observe_widget_id" => "some_form_some_field",
+  "get_observed_value_callback" => array(get_class($this), "getValueForUpdate")
+));
+```
     
 And then you must implement the getValueForUpdate method.
 
@@ -112,8 +117,9 @@ The `mtWidgetFormPlain` displays a plain value.
 
 ##### Usage 
 
-    [php]
-    $this->setWidget("some_field", new mtWidgetFormPlain());
+```php
+$this->setWidget("some_field", new mtWidgetFormPlain());
+```
 
 ### dcWidgetFormChangeForCredentials
 
@@ -122,12 +128,13 @@ user's credentials.
 
 ##### Usage
 
-    [php]
-    $this->setWidget("some_field", new dcWidgetFormChangeForCredentials(new array(
-      "credentials" => array(array("admin", "some_credential")),
-      "widget_without_credentials" => new mtWidgetFormPlain(),
-      "widget_with_credentials" => new sfWidgetFormInput()
-    )));
+```php
+$this->setWidget("some_field", new dcWidgetFormChangeForCredentials(new array(
+  "credentials" => array(array("admin", "some_credential")),
+  "widget_without_credentials" => new mtWidgetFormPlain(),
+  "widget_with_credentials" => new sfWidgetFormInput()
+)));
+```
 
 ### mtWidgetFormPartial
 
@@ -135,13 +142,13 @@ The `mtWidgetFormPartial` displays a partial.
 
 ##### Usage
 
-    [php]
-    $this->setWidget("partial", new mtWidgetFormPartial(array(
-      "module" => "some_module",
-      "partial" => "some_partial",
-      "form" => $this
-    ));
-
+```php
+$this->setWidget("partial", new mtWidgetFormPartial(array(
+  "module" => "some_module",
+  "partial" => "some_partial",
+  "form" => $this
+));
+```
 
 ### pmWidgetFormSelectJQueryAutocomplete
 
@@ -153,8 +160,9 @@ jquery ui is required.
 
 ##### Usage
 
-    [php]
-    $this->getWidget("city_id")->setOption("renderer_class", "pmWidgetFormSelectJQueryAutocomplete");
+```php
+$this->getWidget("city_id")->setOption("renderer_class", "pmWidgetFormSelectJQueryAutocomplete");
+```
 
 ### pmWidgetFormJQuerySearch
 
@@ -162,10 +170,11 @@ The `pmWidgetFormJQuerySearch` displays an input text with search capabilities.
 
 ##### Usage
 
-    [php]
-    $this->setWidget("some_field") = new pmWidgetFormJQuerySearch(array(
-      "url" => "@url_that_performs_the_search"
-    ));
+```php
+$this->setWidget("some_field") = new pmWidgetFormJQuerySearch(array(
+  "url" => "@url_that_performs_the_search"
+));
+```
     
 The jquery_search.js provides a javascript class with functions for displaying
 the results. See the example of a pmWidgetFormPropelJQuerySearch.
@@ -177,11 +186,12 @@ over propel objects.
 
 ##### Usage
 
-    [php]
-    $this->setWidget("some_field_id", new pmWidgetFormPropelJQuerySearch(array(
-      "model" => "SomeField",
-      "column" => "some_column"
-    )));
+```php
+$this->setWidget("some_field_id", new pmWidgetFormPropelJQuerySearch(array(
+  "model" => "SomeField",
+  "column" => "some_column"
+)));
+```
     
 ### mtWidgetFormInputDate
 
@@ -191,8 +201,9 @@ REQUIRED.
 
 ##### Usage
 
-    [php]
-    $this->setWidget("date", new mtWidgetFormInputDate());
+```php
+$this->setWidget("date", new mtWidgetFormInputDate());
+```
 
 ### mtWidgetFormEmbed
 
@@ -215,21 +226,21 @@ associative array of key -> value (available options defined on author page or
 on this widget implementantion) to give values to it. Also, it allows to create
 ingle or range time values.
 
-    For a single time value all you need is:
+For a single time value all you need is:
 
-    [php]
-    $this->setWidget("single_hour", new alWidgetFormTimepicker(array('config' => array('jquery_widget_option_key' => 'jquery_widget_option_value')
-    )));
+```php
+$this->setWidget("single_hour", new alWidgetFormTimepicker(array('config' => array('jquery_widget_option_key' => 'jquery_widget_option_value'))));
+```
     
-    For a range time value:
+For a range time value:
 
-    [php]
-    $this->setWidget("range_hour", new alWidgetFormTimepicker(array('config' => array('jquery_widget_option_key' => 'jquery_widget_option_value'),
-                                                              'enable_timerange' => true
-    )));
+```php
+$this->setWidget("range_hour", new alWidgetFormTimepicker(array('config' => array('jquery_widget_option_key' => 'jquery_widget_option_value'), 'enable_timerange' => true)));
+```
 
-    Note: remember than this widget uses the alValidatorTimepicker validator, and it should be configured wheter the value is single or range. 
-    Check for in the validator section for further explanation on this matters.
+Note: remember than this widget uses the alValidatorTimepicker validator, and it should be configured wheter the value is single or range. 
+
+Check for in the validator section for further explanation on this matters.
 
 ## Validators
 
@@ -244,19 +255,23 @@ Validates single or range hour as strings.
 It accepts an option called enable_timerange (by default set to false), that when its set to true, will be expecting a string
 that looks like this: "HH:MM-HH:MM". Otherwise, it will validate a single value like "HH:MM".
 
-  Ex:
-    Range value
-    [php]
-    $this->setValidator("range_hour", new alValidatorTimepicker(array('enable_timerange' => true)));
+Range value
 
-    Single value
-    [php]
-    $this->setValidator("single_hour", new alValidatorTimepicker(array('enable_timerange' => false)));
+```php
+$this->setValidator("range_hour", new alValidatorTimepicker(array('enable_timerange' => true)));
+```
 
-    or
+Single value
 
-    $this->setValidator("single_hour", new alValidatorTimepicker());
+```php
+$this->setValidator("single_hour", new alValidatorTimepicker(array('enable_timerange' => false)));
+```
 
+or
+
+```php
+$this->setValidator("single_hour", new alValidatorTimepicker());
+```
 
 ### mtValidatorCuil
 
@@ -268,8 +283,9 @@ Validates a CUIL/CUIT from a string made by mtWidgetFormCuil
 
 ##### Usage
 
-    [php]
-    $this->setValidator("date", new mtValidatorDateString());
+```php
+$this->setValidator("date", new mtValidatorDateString());
+```
 
 ## Form auto-initialization
 
@@ -277,17 +293,19 @@ This plugin provides form classes (which extends sfFormPropel and sfFormFilterPr
 
 You just have to change the super class of the BaseFormPropel (and BaseFormFilterPropel) in order to use this functionality.
 
-    [php]
-    abstract class BaseFormPropel extends pmFormPropel
-    {
-    }
+```php
+abstract class BaseFormPropel extends pmFormPropel
+{
+}
+```
     
 and
 
-    [php]
-    abstract class BaseFormPropel extends pmFormFilterPropel
-    {
-    }
+```php
+abstract class BaseFormPropel extends pmFormFilterPropel
+{
+}
+```
 
 These clases uses the plugin's widgets and validators to initialize widgets and validators automatically:
   * unsets created_at and updated_at fields
